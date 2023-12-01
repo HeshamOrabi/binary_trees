@@ -5,7 +5,7 @@
  */
 binary_tree_t *binary_tree_sibling(binary_tree_t *node)
 {
-	if (!node->parent)
+	if (!node || !node->parent || (!node->left && !node->right))
 		return (NULL);
 
 	if (node->parent->left == node)
