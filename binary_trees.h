@@ -21,6 +21,18 @@ struct binary_tree_s
 	struct binary_tree_s *right;
 };
 
+typedef struct queue_n
+{
+	struct binary_tree_s *data;
+	struct queue_n *next;
+} queue_node;
+
+typedef struct queue
+{
+	struct queue_n *front, *rear;
+} queue;
+
+
 typedef struct binary_tree_s binary_tree_t;
 /* Binary Search Tree */
 typedef struct binary_tree_s bst_t;
