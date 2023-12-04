@@ -115,7 +115,6 @@ int binary_tree_is_complete(const binary_tree_t *tree)
 		}
 		else
 			flag = 1;
-
 		if (cur->right)
 		{
 			if (flag)
