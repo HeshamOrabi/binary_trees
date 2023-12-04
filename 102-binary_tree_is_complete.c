@@ -1,5 +1,10 @@
 #include "binary_trees.h"
 
+/**
+ * create_queue - Creates a new queue.
+ *
+ * Return: A pointer to the newly created queue, or NULL on failure.
+ */
 queue *create_queue()
 {
 	queue *new;
@@ -13,6 +18,11 @@ queue *create_queue()
 	return (new);
 }
 
+/**
+ * enqueue - Adds a binary tree node to the queue.
+ * @q: The queue to add the node to.
+ * @node: The binary tree node to be added to the queue.
+ */
 void enqueue(queue *q, binary_tree_t *node)
 {
 	queue_node *qn;
@@ -33,6 +43,12 @@ void enqueue(queue *q, binary_tree_t *node)
 	}
 }
 
+/**
+ * dequeue - Removes and returns the front node from the queue.
+ * @q: The queue to dequeue from.
+ *
+ * Return: The front binary tree node, or NULL if the queue is empty.
+ */
 binary_tree_t *dequeue(queue *q)
 {
 	binary_tree_t *bt;
@@ -40,7 +56,6 @@ binary_tree_t *dequeue(queue *q)
 
 	if (!q->front)
 		return (NULL);
-
 	qn = q->front;
 	bt = qn->data;
 	q->front = q->front->next;
@@ -53,7 +68,26 @@ binary_tree_t *dequeue(queue *q)
 }
 
 /**
+ * free_queue - free queue
+ * @q: queue to be freed
+ */
+void free_queue(queue *q)
+{
+	queue_node *cur;
+
+	while (q->front)
+	{
+		cur = q->front;
+		q->front = q->front->next;
+		free(cur);
+	}
+}
+
+/**
+ * binary_tree_is_complete - checks if a binary tree is complete
+ * @tree: pointer to root
  *
+ * Return: 0 if Null or not complite, 1 if complite
  */
 int binary_tree_is_complete(const binary_tree_t *tree)
 {
@@ -63,22 +97,38 @@ int binary_tree_is_complete(const binary_tree_t *tree)
 
 	if (!tree)
 		return (0);
-
-	enqueue(q,(binary_tree_t *)tree);
+	enqueue(q, (binary_tree_t *)tree);
 
 	while (q->front)
 	{
 		cur = dequeue(q);
-		if (!cur)
-			flag = 1;
-		else
+		if (cur->left)
 		{
 			if (flag)
+			{
+				free_queue(q);
+				free(q);
 				return (0);
+			}
 			enqueue(q, cur->left);
-			enqueue(q,cur->right);
 		}
+		else
+			flag = 1;
+
+		if (cur->right)
+		{
+			if (flag)
+			{
+				free_queue(q);
+				free(q);
+				return (0);
+			}
+			enqueue(q, cur->right);
+		}
+		else
+			flag = 1;
 	}
+	free_queue(q);
 	free(q);
 	return (1);
 }
