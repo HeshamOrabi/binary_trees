@@ -69,28 +69,14 @@ int binary_tree_is_complete(const binary_tree_t *tree)
 	while (q->front)
 	{
 		cur = dequeue(q);
-		if (cur->left)
+		if (!cur)
+			flag = 1;
+		else
 		{
 			if (flag)
 				return (0);
-
 			enqueue(q, cur->left);
-		}
-		else
-		{
-			flag = 1;
-		}
-
-		if (cur->right)
-		{
-			if (flag)
-				return (0);
-
-			enqueue(q, cur->right);
-		}
-		else
-		{
-			flag = 1;
+			enqueue(q,cur->right);
 		}
 	}
 	free(q);
