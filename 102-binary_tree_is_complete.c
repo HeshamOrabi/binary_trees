@@ -91,12 +91,13 @@ void free_queue(queue *q)
  */
 int binary_tree_is_complete(const binary_tree_t *tree)
 {
-	queue *q = create_queue();
+	queue *q;
 	binary_tree_t *cur;
 	int flag = 0;
 
 	if (!tree)
 		return (0);
+	q = create_queue();
 	enqueue(q, (binary_tree_t *)tree);
 
 	while (q->front)
